@@ -1,13 +1,11 @@
 ﻿using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSales;
+namespace Ambev.DeveloperEvaluation.Application.Purchases.GetDiscounts;
 
-public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
+public class GetDiscountPurchaseValidator : AbstractValidator<GetDiscountPurchaseCommand>
 {
-    public CreateSaleCommandValidator()
+    public GetDiscountPurchaseValidator()
     {
-        RuleFor(sale => sale.TotalSale).NotEmpty().NotEqual(0);
-        RuleFor(sale => sale.TotalSaleItems).NotEmpty().NotEqual(0);
         RuleForEach(x => x.Products).ChildRules(product =>
         {
             product.RuleFor(p => p.ProductId).NotEqual(Guid.Empty).WithMessage("The product Id should not be empty");
@@ -18,8 +16,8 @@ public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
             .WithMessage("There are more than 20 identical items");
     }
 
-    private bool NotSellPlus20(List<ProductQuantity> Products)
+    private bool NotSellPlus20(List<ProductPurchaseCommand> Products)
     {
-        return !Products.Any(p => p.Quantity > 20);
+      return !Products.Any(p => p.Quantity > 20);
     }
 }

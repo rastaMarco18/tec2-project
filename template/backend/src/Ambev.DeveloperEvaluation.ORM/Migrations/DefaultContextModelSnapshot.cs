@@ -11,7 +11,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
@@ -123,6 +122,30 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                 b.HasKey("Id");
 
                 b.ToTable("Products", (string)null);
+            });
+
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.SaleProducts", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid")
+                    .HasDefaultValueSql("gen_random_uuid()");
+
+                b.Property<Guid>("Sale_Id")
+                    .IsRequired()
+                    .HasColumnType("uuid");
+
+                b.Property<Guid>("Product_Id")
+                    .IsRequired()
+                    .HasColumnType("uuid");
+
+                b.Property<int>("Quantity")
+                    .IsRequired()
+                    .HasColumnType("integer");
+
+                b.HasKey("Id");
+
+                b.ToTable("SalesProducts", (string)null);
 
 #pragma warning restore 612, 618
             });

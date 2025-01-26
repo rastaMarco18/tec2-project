@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Application;
+using Ambev.DeveloperEvaluation.Application.Sales.CreateSales;
 using Ambev.DeveloperEvaluation.Common.HealthChecks;
 using Ambev.DeveloperEvaluation.Common.Logging;
 using Ambev.DeveloperEvaluation.Common.Security;
@@ -51,8 +52,9 @@ public class Program
             });
 
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
+            
             var app = builder.Build();
+
             app.UseMiddleware<ValidationExceptionMiddleware>();
 
             if (app.Environment.IsDevelopment())
@@ -67,7 +69,7 @@ public class Program
             app.UseAuthorization();
 
             app.UseBasicHealthChecks();
-
+            
             app.MapControllers();
 
             app.Run();
@@ -81,4 +83,5 @@ public class Program
             Log.CloseAndFlush();
         }
     }
+
 }
