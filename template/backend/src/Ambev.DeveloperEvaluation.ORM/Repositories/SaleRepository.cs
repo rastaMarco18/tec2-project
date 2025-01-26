@@ -62,6 +62,21 @@ public class SaleRepository : ISaleRepository
             query = query.Where(x => x.CreatedAt >= startOfDay && x.CreatedAt < endOfDay);
         }
 
+        query = from q in query
+                select new Sale()
+                {
+                    Id = q.Id,
+                    TotalSale = q.TotalSale,
+                    Discount = q.Discount,
+                    TotalSaleItems = q.TotalSaleItems,
+                    CreatedAt = q.CreatedAt,
+                    Canceled = q.Canceled,
+                    Products = (from product in _context.Products
+                                join salesProducts in _context.SalesProducts on product.Id equals salesProducts.Product_Id
+                                where q.Id == salesProducts.Sale_Id
+                                select product).ToList()
+                };
+
         return query;
     }
 }

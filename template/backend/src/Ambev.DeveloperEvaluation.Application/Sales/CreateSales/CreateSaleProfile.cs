@@ -9,5 +9,6 @@ public class CreateSaleProfile : Profile
     {
         CreateMap<CreateSaleCommand, Sale>().ReverseMap();
         CreateMap<Sale, CreateSaleResult>().ReverseMap();
+        CreateMap<ProductQuantity, Product>().ReverseMap();
     }
 }

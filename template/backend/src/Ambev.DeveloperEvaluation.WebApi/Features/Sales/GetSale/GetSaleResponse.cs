@@ -8,4 +8,12 @@ public class GetSaleResponse
     public decimal Discount { get; set; }
     public decimal TotalSaleItems { get; set; }
     public bool Canceled { get; set; }
+    public List<SaleProductsResponse> Products { get; set; }
+}
+
+public class SaleProductsResponse
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
 }

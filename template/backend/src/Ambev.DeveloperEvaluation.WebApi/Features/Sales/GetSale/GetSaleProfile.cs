@@ -14,6 +14,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale
             CreateMap<GetSaleCommand, SaleFilter>().ReverseMap();
             CreateMap<Sale, GetSaleResponse>().ReverseMap();
             CreateMap<GetSalesResultResponse, GetSaleResponse>().ReverseMap();
+            CreateMap<SaleProductsResponse, Product>().ReverseMap();
         }
     }
 }
