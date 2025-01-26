@@ -11,12 +11,20 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
 {
     private readonly ISaleRepository _saleRepository;
     private readonly ISaleProductRepository _saleProductRepository;
+    private readonly IUserSaleRepository _userSaleRepository;
+    private readonly IUserRepository _userRepository; //UMA ABORDAGEM RUIM, PODERIA TER PEGO DO TOKEN, MAS NÃO TIVE TEMPO
     private readonly IMapper _mapper;
 
-    public CreateSaleHandler(ISaleRepository saleRepository, ISaleProductRepository saleProductRepository, IMapper mapper)
+    public CreateSaleHandler(ISaleRepository saleRepository,
+                             ISaleProductRepository saleProductRepository,
+                             IUserSaleRepository userSaleRepository,
+                             IUserRepository userRepository,
+                             IMapper mapper)
     {
         _saleRepository = saleRepository;
         _saleProductRepository = saleProductRepository;
+        _userSaleRepository = userSaleRepository;
+        _userRepository = userRepository;   
         _mapper = mapper;
     }
 
@@ -38,13 +46,13 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
             Products = command.Products
         };
 
-        await CompleteSale(request);
+        await CompleteSale(request, command.UserEmail);
 
         var result = _mapper.Map<CreateSaleResult>(createdSale);
         return result;
     }
 
-    public async Task CompleteSale(CompleteSaleCommand request)
+    public async Task CompleteSale(CompleteSaleCommand request, string userEmail)
     {
         try
         {
@@ -57,9 +65,25 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
                 await _saleProductRepository.CreateAsync(saleProduct);
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Log.Error("An error has ocurred to finished -> FUNCTION COMPLETESALE()");
+            Log.Error("An error has ocurred to finished -> FUNCTION COMPLETESALE() SAVE USER PRODUCTS");
+        }
+
+        try
+        {
+            //UMA ABORDAGEM RUIM, PODERIA TER PEGO DO TOKEN, MAS NÃO TIVE TEMPO
+            var user = await _userRepository.GetByEmailAsync(userEmail);
+
+            var userSale = new UserSale();
+            userSale.SaleId = request.SaleId;
+            userSale.UserId = user.Id;
+            await _userSaleRepository.CreateAsync(userSale);
+
+        }
+        catch (Exception)
+        {
+            Log.Error("An error has ocurred to finished -> FUNCTION COMPLETESALE() - SAVE USER SALE");
         }
     }
 }

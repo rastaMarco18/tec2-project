@@ -4,6 +4,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSales;
 
 public class CreateSaleCommand : IRequest<CreateSaleResult>
 {
+    public string UserEmail{ get; set; }
     public decimal TotalSale { get; set; }
     public decimal Discount { get; set; }
     public decimal TotalSaleItems { get; set; }

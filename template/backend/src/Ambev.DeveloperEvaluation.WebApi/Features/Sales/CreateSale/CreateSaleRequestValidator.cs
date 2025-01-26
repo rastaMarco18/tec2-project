@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Ambev.DeveloperEvaluation.Domain.Validation;
+using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 
@@ -6,6 +7,7 @@ public class CreateSaleRequestValidator : AbstractValidator<CreateSaleRequest>
 {
     public CreateSaleRequestValidator()
     {
+        RuleFor(sale => sale.UserEmail).NotEmpty().SetValidator(new EmailValidator());
         RuleFor(sale => sale.TotalSale).NotEmpty().NotEqual(0);
         RuleFor(sale => sale.TotalSaleItems).NotEmpty().NotEqual(0);
         RuleForEach(x => x.Products).ChildRules(product =>

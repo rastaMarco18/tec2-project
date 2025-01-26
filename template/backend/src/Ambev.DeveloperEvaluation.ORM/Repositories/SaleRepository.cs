@@ -30,6 +30,21 @@ public class SaleRepository : ISaleRepository
         throw new NotImplementedException();
     }
 
+    public async Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.Sales.FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+    }
+
+    public async Task<bool> Update(Sale sale, CancellationToken cancellationToken = default)
+    {
+        await _context.Database.ExecuteSqlRawAsync(
+                "UPDATE public.\"Sales\" SET \"Canceled\" = {0}, \"UpdatedAt\" = {1} WHERE \"Id\" = {2}",
+                sale.Canceled, sale.UpdatedAt, sale.Id);
+
+        //await _context.SaveChangesAsync(cancellationToken);
+        return true;
+    }
+
     public IQueryable<Sale> GetSales(SaleFilter sale, CancellationToken cancellationToken = default)
     {
         var query = _context.Sales.AsQueryable();
@@ -49,10 +64,4 @@ public class SaleRepository : ISaleRepository
 
         return query;
     }
-
-    public async Task<Sale?> GetByIdAsync(Guid? id, CancellationToken cancellationToken = default)
-    {
-        return await _context.Sales.FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
-    }
-
 }

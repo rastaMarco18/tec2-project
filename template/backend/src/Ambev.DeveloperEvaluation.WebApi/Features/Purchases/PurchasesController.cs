@@ -1,11 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Purchases.GetDiscounts;
-using Ambev.DeveloperEvaluation.Application.Sales.CreateSales;
-using Ambev.DeveloperEvaluation.Application.Sales.GetSales;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Discounts.GetDiscount;
 using Ambev.DeveloperEvaluation.WebApi.Features.Purchases.GetPurchaseDiscounts;
-using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
-using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

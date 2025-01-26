@@ -8,8 +8,13 @@ using Ambev.DeveloperEvaluation.IoC;
 using Ambev.DeveloperEvaluation.ORM;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Text;
 
 namespace Ambev.DeveloperEvaluation.WebApi;
 
@@ -26,9 +31,11 @@ public class Program
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-
+            builder.Services.AddCors();
             builder.AddBasicHealthChecks();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddDbContext<DefaultContext>(options =>
                 options.UseNpgsql(

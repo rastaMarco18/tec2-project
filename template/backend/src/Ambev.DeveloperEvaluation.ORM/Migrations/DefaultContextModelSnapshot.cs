@@ -87,7 +87,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     .HasColumnType("boolean");
 
                 b.Property<DateTime>("UpdatedAt")
-                   .IsRequired()
                    .HasColumnType("date");
 
                 b.HasKey("Id");
@@ -146,6 +145,28 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                 b.HasKey("Id");
 
                 b.ToTable("SalesProducts", (string)null);
+
+#pragma warning restore 612, 618
+            });
+
+            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.UserSales", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uuid")
+                    .HasDefaultValueSql("gen_random_uuid()");
+
+                b.Property<Guid>("SaleId")
+                    .IsRequired()
+                    .HasColumnType("uuid");
+
+                b.Property<Guid>("UserId")
+                    .IsRequired()
+                    .HasColumnType("uuid");
+
+                b.HasKey("Id");
+
+                b.ToTable("UserSales", (string)null);
 
 #pragma warning restore 612, 618
             });
